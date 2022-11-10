@@ -1,23 +1,48 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { React, useState, useEffect } from "react";
+import Table from 'react-bootstrap/Table';
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/coviddaily")
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  console.log(data);
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Positivos</th>
+          <th>Negativos</th>
+          <th>Pendientes</th>
+          <th>Muertes</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+       {data.map((d) => (
+        <tr>
+          <td>{d.Date}</td>
+          <td>{d.Muertes}</td>
+          <td>{d.Negativos}</td>
+          <td>{d.Pendientes}</td>
+          <td>{d.Positivos}</td>
+        </tr>
+      ))}
+        
+        
+        
+        
+      </tbody>
+    </Table>
     </div>
   );
 }
